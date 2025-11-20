@@ -1,4 +1,12 @@
+using Microsoft.EntityFrameworkCore;
+using PetShop.Context;
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+
+builder.Services.AddDbContext<PetShopContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("PetShopDb")));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
