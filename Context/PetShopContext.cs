@@ -1,9 +1,11 @@
 ﻿using PetShop.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace PetShop.Context
 {
-    public class PetShopContext : DbContext
+    public class PetShopContext : IdentityDbContext<IdentityUser>
     {
         public PetShopContext(DbContextOptions<PetShopContext> options) : base(options) {}
         public DbSet<Product> Products { get; set; }    
