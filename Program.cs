@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using PetShop.Context;
 using Microsoft.AspNetCore.Identity;
+using PetShop.Repositories.Interfaces;
+using PetShop.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,7 +11,7 @@ builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnC
 builder.Services.AddDbContext<PetShopContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("PetShopDb")));
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<PetShopContext>()
     .AddDefaultTokenProviders();
@@ -33,6 +35,19 @@ builder.Services.Configure<IdentityOptions>(options =>
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
+
+// Services and Repositories
+builder.Services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
+
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+
+builder.Services.AddScoped<IOrderItemRepository, OrderItemRepository>();
+
+builder.Services.AddScoped<IHistoryRepository, HistoryRepository>();
 
 var app = builder.Build();
 
