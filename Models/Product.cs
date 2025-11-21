@@ -17,6 +17,7 @@ namespace PetShop.Models
         [DisplayName("Imagine")]
         [NotMapped]
         public IFormFile ImageFile { get; set; }
+
         [ForeignKey(nameof(Category))]
         public int CategoryId { get; set; }
         public Category Category { get; set; }
