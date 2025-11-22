@@ -11,11 +11,6 @@ namespace PetShop.Repositories
             _petShopContext = petShopContext;
         }
 
-        public void Save()
-        {
-            _petShopContext.SaveChanges();
-        }
-
         // Product
         private IProductRepository? _productRepository;
         public IProductRepository ProductRepository
@@ -85,5 +80,10 @@ namespace PetShop.Repositories
                 return _historyRepository;
             }
         }
+        public void Save()
+        {
+            _petShopContext.SaveChanges();
+        }
+
     }
 }
