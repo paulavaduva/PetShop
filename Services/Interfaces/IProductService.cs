@@ -1,4 +1,5 @@
-﻿using PetShop.Models;
+﻿using PetShop.DTOs;
+using PetShop.Models;
 
 namespace PetShop.Services.Interfaces
 {
@@ -7,9 +8,9 @@ namespace PetShop.Services.Interfaces
         Product GetProductById(int id);
         Task AddProductAsync(Product product);
         void DeleteProduct(int id);
-        //Task UpdateProductAsync (Product product); // de revenit va fi ProductDto productDto
+        Task UpdateProductAsync (ProductDto productDto); 
         List<Product> GetAllProducts(); 
         bool ProductExists(int id); 
-
+        GroupCategoryDto GetProductsByCategory(int categoryId);
     }
 }

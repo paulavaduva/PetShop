@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using PetShop.DTOs;
 using PetShop.Models;
 using PetShop.Repositories.Interfaces;
 using PetShop.Services.Interfaces;
@@ -40,6 +41,22 @@ namespace PetShop.Services
                 _repositoryWrapper.Save();
             }
         }
+        public async Task UpdateProductAsync(ProductDto productDto)
+        {
+            var product = _repositoryWrapper.ProductRepository.GetById(productDto.Id);
+            mapProduct(productDto, product);
+
+            using var ms = new MemoryStream();
+
+            if (product.ImageFile != null && product.ImageFile.Length > 0)
+            {
+                await product.ImageFile.CopyToAsync (ms);
+                product.ProductImage = ms.ToArray();
+            }
+
+            _repositoryWrapper.ProductRepository.Update(product);
+            _repositoryWrapper.Save();
+        }
         public List<Product> GetAllProducts()
         {
             return _repositoryWrapper.ProductRepository.FindAll().ToList();
@@ -48,6 +65,39 @@ namespace PetShop.Services
         {
             return _repositoryWrapper.ProductRepository.ProductExists(id);
         }
+        public GroupCategoryDto GetProductsByCategory(int categoryId)
+        {
+            var category = _repositoryWrapper.ProductRepository.GetProductByCategory(categoryId);
+            if (category == null)
+            {
+                return null;
+            }
+            var groupCategoryDto = new GroupCategoryDto
+            {
+                Id = categoryId,
+                Name = category.Name,
 
+                Products = category.Products.Select(product => new GroupProductDto
+                {
+                    Id = product.Id,
+                    Name = product.Name,
+                    Price = product.Price,
+                    Stock = product.Stock,
+                    ProductImage = product.ProductImage
+                }).ToList()
+            };
+
+            return groupCategoryDto;
+        }
+        private void mapProduct(ProductDto dto, Product product)
+        {
+            product.Name = dto.Name;
+            product.Description = dto.Description;
+            product.Price = dto.Price;
+            product.Stock = dto.Stock;
+            product.ProductImage = dto.ProductImage;
+            product.ImageFile = dto.ImageFile;
+            product.CategoryId = dto.CategoryId;
+        }
     }
 }
