@@ -5,6 +5,7 @@ using PetShop.Repositories.Interfaces;
 using PetShop.Repositories;
 using PetShop.Services.Interfaces;
 using PetShop.Services;
+using PetShop.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,7 +14,7 @@ builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnC
 builder.Services.AddDbContext<PetShopContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("PetShopDb")));
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
+builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<PetShopContext>()
     .AddDefaultTokenProviders();
