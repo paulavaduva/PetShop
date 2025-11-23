@@ -63,7 +63,8 @@ namespace PetShop.Services
         public List<Product> GetAllProducts()
         {
             return _repositoryWrapper.ProductRepository.FindAll()
-                .Include(p => p.Category) // categoria
+                .Include(p => p.Category)
+                .OrderByDescending(p => p.Stock > 0)
                 .ToList();
         }
         public bool ProductExists(int id)
@@ -82,14 +83,16 @@ namespace PetShop.Services
                 Id = categoryId,
                 Name = category.Name,
 
-                Products = category.Products.Select(product => new GroupProductDto
-                {
-                    Id = product.Id,
-                    Name = product.Name,
-                    Price = product.Price,
-                    Stock = product.Stock,
-                    ProductImage = product.ProductImage
-                }).ToList()
+                Products = category.Products
+                    .OrderByDescending(p => p.Stock > 0)
+                    .Select(product => new GroupProductDto
+                    {
+                        Id = product.Id,
+                        Name = product.Name,
+                        Price = product.Price,
+                        Stock = product.Stock,
+                        ProductImage = product.ProductImage
+                    }).ToList()
             };
 
             return groupCategoryDto;
