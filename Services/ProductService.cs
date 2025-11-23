@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using PetShop.DTOs;
 using PetShop.Models;
 using PetShop.Repositories.Interfaces;
@@ -16,7 +17,9 @@ namespace PetShop.Services
 
         public Product GetProductById(int id)
         {
-            return _repositoryWrapper.ProductRepository.GetById(id);
+            return _repositoryWrapper.ProductRepository.FindByCondition(p => p.Id == id)
+                .Include(p => p.Category)
+                .FirstOrDefault();
         }
         public async Task AddProductAsync(Product product)
         {
@@ -59,7 +62,9 @@ namespace PetShop.Services
         }
         public List<Product> GetAllProducts()
         {
-            return _repositoryWrapper.ProductRepository.FindAll().ToList();
+            return _repositoryWrapper.ProductRepository.FindAll()
+                .Include(p => p.Category) // categoria
+                .ToList();
         }
         public bool ProductExists(int id)
         {

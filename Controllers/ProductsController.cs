@@ -52,7 +52,7 @@ namespace PetShop.Controllers
         public IActionResult Create()
         {
             var categories = _categoryService.GetAllCategories();
-            ViewData["Categories"] = new MultiSelectList(categories, "Id", "Name");
+            ViewData["CategoryId"] = new SelectList(categories, "Id", "Name");
             return View(new ProductDto());
         }
 
@@ -61,7 +61,7 @@ namespace PetShop.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Description,Price,Stock,ProductImage,CategoryId")] ProductDto productDto)
+        public async Task<IActionResult> Create([Bind("Id,Name,Description,Price,Stock,ProductImage,CategoryId,ImageFile")] ProductDto productDto)
         {
             var product = mapProduct(productDto);
 
@@ -83,7 +83,7 @@ namespace PetShop.Controllers
                 return NotFound();
             }
             var categories = _categoryService.GetAllCategories();
-            ViewData["Categories"] = new MultiSelectList(categories, "Id", "Name");
+            ViewData["CategoryId"] = new SelectList(categories, "Id", "Name", product.CategoryId);
             return View(mapProduct(product));
         }
 
@@ -92,7 +92,7 @@ namespace PetShop.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,Price,Stock,ProductImage,CategoryId")] ProductDto productDto)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,Price,Stock,ProductImage,CategoryId,ImageFile")] ProductDto productDto)
         {
             if (id != productDto.Id)
             {
@@ -170,7 +170,8 @@ namespace PetShop.Controllers
                 Stock = p.Stock,
                 ProductImage = p.ProductImage,
                 ImageFile = p.ImageFile,
-                CategoryId = p.CategoryId
+                CategoryId = p.CategoryId,
+                CategoryName = p.Category?.Name
             };
             
         }
