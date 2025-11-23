@@ -3,6 +3,8 @@ using PetShop.Context;
 using Microsoft.AspNetCore.Identity;
 using PetShop.Repositories.Interfaces;
 using PetShop.Repositories;
+using PetShop.Services.Interfaces;
+using PetShop.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -40,14 +42,18 @@ builder.Services.AddRazorPages();
 builder.Services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
 
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IProductService, ProductService>();
 
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
 
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddScoped<IOrderService, OrderService>();
 
 builder.Services.AddScoped<IOrderItemRepository, OrderItemRepository>();
 
 builder.Services.AddScoped<IHistoryRepository, HistoryRepository>();
+builder.Services.AddScoped<IHistoryService, HistoryService>();
 
 var app = builder.Build();
 
