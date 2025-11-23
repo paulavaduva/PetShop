@@ -22,5 +22,6 @@ namespace PetShop.DTOs
         public IFormFile ImageFile { get; set; }
         [Required]
         public int CategoryId { get; set; }
+        public string? CategoryName { get; set; }   
     }
 }
