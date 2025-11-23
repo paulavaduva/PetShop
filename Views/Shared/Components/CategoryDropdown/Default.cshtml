@@ -1,0 +1,28 @@
+﻿@model IEnumerable<PetShop.Models.Category>
+
+@foreach (var category in Model)
+{
+    <li>
+        <a class="dropdown-item d-flex align-items-center py-2"
+           asp-controller="Products"
+           asp-action="ProductsByCategory"
+           asp-route-categoryId="@category.Id">
+
+            <div class="icon-square bg-light text-primary rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 30px; height: 30px;">
+                <i class="fa-solid fa-paw"></i>
+            </div>
+
+            <span class="fw-medium text-dark">@category.Name</span>
+        </a>
+    </li>
+}
+
+@* @if (User.IsInRole("Admin"))
+{ *@
+    <li><hr class="dropdown-divider my-2"></li>
+    <li>
+        <a class="dropdown-item text-danger d-flex align-items-center py-2" asp-controller="Categories" asp-action="Index">
+            <i class="fa-solid fa-gear me-3"></i> Administreaza
+        </a>
+    </li>
+@* } *@
