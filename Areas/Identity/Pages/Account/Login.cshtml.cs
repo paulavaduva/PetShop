@@ -14,18 +14,22 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using PetShop.Repositories.Interfaces;
+using PetShop.Models;
 
 namespace PetShop.Areas.Identity.Pages.Account
 {
     public class LoginModel : PageModel
     {
-        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly IAuthService _authService;
         private readonly ILogger<LoginModel> _logger;
+        private readonly UserManager<User> _userManager;
 
-        public LoginModel(SignInManager<IdentityUser> signInManager, ILogger<LoginModel> logger)
+        public LoginModel(IAuthService authService, ILogger<LoginModel> logger, UserManager<User> userManager)
         {
-            _signInManager = signInManager;
+            _authService = authService;
             _logger = logger;
+            _userManager = userManager; 
         }
 
         /// <summary>
@@ -96,7 +100,7 @@ namespace PetShop.Areas.Identity.Pages.Account
             // Clear the existing external cookie to ensure a clean login process
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
-            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+            ExternalLogins = await _authService.GetExternalAuthenticationSchemesAsync();
 
             ReturnUrl = returnUrl;
         }
@@ -105,23 +109,24 @@ namespace PetShop.Areas.Identity.Pages.Account
         {
             returnUrl ??= Url.Content("~/");
 
-            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+            ExternalLogins = await _authService.GetExternalAuthenticationSchemesAsync();
 
             if (ModelState.IsValid)
             {
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
-                if (result.Succeeded)
+                var (succeeded, requires2FA, isLockedOut, errorMessage) = await _authService.LoginAsync(Input.Email, Input.Password, Input.RememberMe);
+                if (succeeded)
                 {
+                    var user = await _authService.GetUserByEmailAsync(Input.Email);
                     _logger.LogInformation("User logged in.");
                     return LocalRedirect(returnUrl);
                 }
-                if (result.RequiresTwoFactor)
+                if (requires2FA)
                 {
                     return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
                 }
-                if (result.IsLockedOut)
+                if (isLockedOut)
                 {
                     _logger.LogWarning("User account locked out.");
                     return RedirectToPage("./Lockout");
