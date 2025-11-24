@@ -2,7 +2,87 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<link rel="stylesheet" href="~/css/home.css" asp-append-version="true" />
+
+<div class="hero-section">
+    <div class="hero-content">
+        <h1>Bine ai venit la PetShop!</h1>
+        <p>Tot ce e mai bun pentru prietenul tau necuvantator.</p>
+        <a asp-controller="Products" asp-action="Index" class="btn btn-success btn-lg px-5 py-3 rounded-pill fw-bold">
+            <i class="fas fa-shopping-bag me-2"></i> Incepe Cumparaturile
+        </a>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row text-center mb-5">
+        <div class="col-md-4 mb-4">
+            <div class="p-4 bg-light rounded-3 shadow-sm h-100">
+                <i class="fa-solid fa-bowl-food feature-icon"></i>
+                <h3>Hrana Premium</h3>
+                <p class="text-muted">Doar ingrediente de calitate superioara pentru sanatatea animalului tau.</p>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="p-4 bg-light rounded-3 shadow-sm h-100">
+                <i class="fa-solid fa-truck-fast feature-icon"></i>
+                <h3>Livrare Rapida</h3>
+                <p class="text-muted">Comanzi azi si primesti produsele in cel mai scurt timp posibil la usa ta.</p>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="p-4 bg-light rounded-3 shadow-sm h-100">
+                <i class="fa-solid fa-heart feature-icon"></i>
+                <h3>Servicii cu Iubire</h3>
+                <p class="text-muted">Suntem si noi iubitori de animale, asa ca intelegem exact ce ai nevoie.</p>
+            </div>
+        </div>
+    </div>
+
+    @* <div class="text-center mb-4">
+        <h2 class="fw-bold">Explorează Categoriile</h2>
+        <hr class="w-25 mx-auto text-success" style="height: 3px; opacity: 1;">
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 col-lg-3 mb-4">
+            <div class="card border-0 shadow-sm category-card h-100">
+                <img src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=500&q=60" class="card-img-top" alt="Câini" style="height: 200px; object-fit: cover;">
+                <div class="card-body text-center">
+                    <h5 class="card-title fw-bold">Câini</h5>
+                    <a asp-controller="Products" asp-action="Index" class="btn btn-outline-success btn-sm mt-2">Vezi Produse</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3 mb-4">
+            <div class="card border-0 shadow-sm category-card h-100">
+                <img src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=500&q=60" class="card-img-top" alt="Pisici" style="height: 200px; object-fit: cover;">
+                <div class="card-body text-center">
+                    <h5 class="card-title fw-bold">Pisici</h5>
+                    <a asp-controller="Products" asp-action="Index" class="btn btn-outline-success btn-sm mt-2">Vezi Produse</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3 mb-4">
+            <div class="card border-0 shadow-sm category-card h-100">
+                <img src="https://images.unsplash.com/photo-1576201836106-db1758fd1c97?auto=format&fit=crop&w=500&q=60" class="card-img-top" alt="Accesorii" style="height: 200px; object-fit: cover;">
+                <div class="card-body text-center">
+                    <h5 class="card-title fw-bold">Jucării</h5>
+                    <a asp-controller="Products" asp-action="Index" class="btn btn-outline-success btn-sm mt-2">Vezi Produse</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3 mb-4">
+            <div class="card border-0 shadow-sm category-card h-100">
+                <img src="https://images.unsplash.com/photo-1425082661705-1834bfd09dca?auto=format&fit=crop&w=500&q=60" class="card-img-top" alt="Altele" style="height: 200px; object-fit: cover;">
+                <div class="card-body text-center">
+                    <h5 class="card-title fw-bold">Alte Animale</h5>
+                    <a asp-controller="Products" asp-action="Index" class="btn btn-outline-success btn-sm mt-2">Vezi Produse</a>
+                </div>
+            </div>
+        </div>
+    </div> *@
 </div>
