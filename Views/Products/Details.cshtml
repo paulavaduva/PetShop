@@ -67,22 +67,21 @@
 
                     <div class="action-buttons">
 
-                        @* @if (User.IsInRole("Admin"))
-                        { *@
+                        @if (User.IsInRole("Admin"))
+                        {
 
-                        <div class="d-grid gap-2">
-                            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning btn-lg">
-                                <i class="fa-solid fa-pen"></i> Editeaza 
-                            </a>
-                            <div class="d-flex gap-2">
-                                <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-outline-danger flex-grow-1">
-                                    <i class="fa-solid fa-trash"></i> Sterge
+                            <div class="d-grid gap-2">
+                                <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning btn-lg">
+                                    <i class="fa-solid fa-pen"></i> Editeaza 
                                 </a>
+                                <div class="d-flex gap-2">
+                                    <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-outline-danger flex-grow-1">
+                                        <i class="fa-solid fa-trash"></i> Sterge
+                                    </a>
+                                </div>
                             </div>
-                        </div>
-                        @* }
-                        else
-                        { *@
+                        }
+                        
 
                         @if (Model.Stock > 0)
                         {

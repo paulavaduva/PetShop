@@ -17,12 +17,12 @@
     </li>
 }
 
-@* @if (User.IsInRole("Admin"))
-{ *@
+@if (User.IsInRole("Admin"))
+{
     <li><hr class="dropdown-divider my-2"></li>
     <li>
         <a class="dropdown-item text-danger d-flex align-items-center py-2" asp-controller="Categories" asp-action="Index">
             <i class="fa-solid fa-gear me-3"></i> Administreaza
         </a>
     </li>
-@* } *@
+}
