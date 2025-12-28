@@ -80,6 +80,20 @@ namespace PetShop.Repositories
                 return _historyRepository;
             }
         }
+
+        // Address
+        private IAddressRepository? _addressRepository;
+        public IAddressRepository AddressRepository
+        {
+            get
+            {
+                if (_addressRepository == null)
+                {
+                    _addressRepository = new AddressRepository(_petShopContext);
+                }
+                return _addressRepository;
+            }
+        }
         public void Save()
         {
             _petShopContext.SaveChanges();

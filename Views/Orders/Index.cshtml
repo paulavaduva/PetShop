@@ -1,53 +1,153 @@
-﻿@model IEnumerable<PetShop.Models.Order>
+﻿@model PetShop.Models.Order
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Shopping Cart";
+    decimal total = 0;
 }
 
-<h1>Index</h1>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Date)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.statusOrder)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.User)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.HistoryOrder)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Date)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.statusOrder)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.User.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.HistoryOrder.Id)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<link rel="stylesheet" href="~/css/orders.css" asp-append-version="true" />
+
+<div class="container my-5">
+
+    @if (Model == null || Model.OrderItems == null || !Model.OrderItems.Any())
+    {
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="empty-cart-box fade-in-up">
+                    <div class="empty-icon">
+                        <i class="fa-solid fa-cat fa-bounce"></i>
+                    </div>
+                    <h2 class="mb-3 fw-bold">Your cart is empty!</h2>
+                    <p class="text-muted mb-4">Looks like your pet hasn't picked anything yet.</p>
+                    <a asp-controller="Products" asp-action="Index" class="btn btn-checkout" style="max-width: 250px;">
+                        Start Shopping
+                    </a>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            <h2 class="page-title">Your Cart</h2>
+
+            <div class="col-lg-8">
+                @foreach (var item in Model.OrderItems)
+                {
+                    var itemPrice = item.Product?.Price ?? 0;
+                    var subtotal = (decimal)itemPrice * item.Quantity;
+                    total = total + subtotal;
+
+                    <div class="cart-card p-3">
+                        <div class="d-flex align-items-center flex-wrap flex-md-nowrap gap-3">
+
+                            <div class="product-img-container">
+                                @if (item.Product != null && item.Product.ProductImage != null)
+                                {
+                                    var base64 = Convert.ToBase64String(item.Product.ProductImage);
+                                    var imgSrc = $"data:image/png;base64,{base64}";
+                                    <img src="@imgSrc" alt="@item.Product.Name" />
+                                }
+                                else
+                                {
+                                    <div class="d-flex align-items-center justify-content-center h-100 bg-light text-muted">
+                                        <i class="fa-solid fa-image"></i>
+                                    </div>
+                                }
+                            </div>
+
+                            <div class="flex-grow-1">
+                                <h5 class="fw-bold mb-1">@(item.Product?.Name ?? "Unknown Product")</h5>
+                                <span class="text-muted small">Unit Price: @itemPrice.ToString("0.00") Lei</span>
+                            </div>
+
+                            <div class="quantity-wrapper">
+                                <form asp-action="DecreaseQuantity" method="post" class="d-flex m-0">
+                                    <input type="hidden" name="productId" value="@item.ProductId" />
+                                    <button type="submit" class="btn-qty"><i class="fa-solid fa-minus small"></i></button>
+                                </form>
+
+                                <span class="qty-display">@item.Quantity</span>
+
+                                @if (item.Quantity < item.Product.Stock)
+                                {
+                                    <form asp-action="IncreaseQuantity" method="post" class="d-flex m-0">
+                                        <input type="hidden" name="productId" value="@item.ProductId" />
+                                        <button type="submit" class="btn-qty"><i class="fa-solid fa-plus small"></i></button>
+                                    </form>
+                                }
+                                else
+                                {
+                                    <button type="button" class="btn-qty" disabled style="opacity: 0.5; cursor: not-allowed;" title="Stoc maxim atins">
+                                        <i class="fa-solid fa-ban small text-muted"></i>
+                                    </button>
+                                }
+                            </div>
+
+                            @* @if (item.Quantity >= item.Product.Stock)
+                            {
+                                <div class="text-danger small mt-1">Max stock reached!</div>
+                            } *@
+
+                            <div class="text-end ms-3" style="min-width: 100px;">
+                                <div class="fw-bold fs-5 mb-2">@subtotal.ToString("0.00") Lei</div>
+                                <form asp-action="RemoveFromCart" method="post">
+                                    <input type="hidden" name="productId" value="@item.ProductId" />
+                                    <button type="submit" class="btn-remove">
+                                        <i class="fa-regular fa-trash-can"></i> Remove
+                                    </button>
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+                }
+
+                <div class="d-flex justify-content-between align-items-center mt-4">
+                    <a asp-controller="Products" asp-action="Index" class="btn-continue">
+                        <i class="fa-solid fa-arrow-left-long me-2"></i> Continue Shopping
+                    </a>
+
+                    <form asp-action="ClearCart" method="post">
+                        <button type="submit" class="btn btn-outline-danger btn-sm border-0" onclick="return confirm('Clear entire cart?');">
+                            Empty Cart
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="col-lg-4 mt-4 mt-lg-0">
+                <div class="summary-card">
+                    <h4 class="fw-bold mb-4">Order Summary</h4>
+
+                    <div class="summary-row">
+                        <span>Subtotal</span>
+                        <span class="fw-bold">@total.ToString("0.00") Lei</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Delivery</span>
+                        <span class="fw-bold">9.99 Lei</span>
+                    </div>
+
+                    <div class="summary-total">
+                        <span>Total</span>
+                        <span style="color: var(--primary-color);">@((total + 9.99M).ToString("0.00")) Lei</span>
+                    </div>
+
+                    <form asp-controller="Orders" asp-action="Checkout" method="get" class="mt-4">
+                        <input type="hidden" name="id" value="@Model.Id" />
+                        <button type="submit" class="btn-checkout shadow">
+                            Proceed to Checkout <i class="fa-solid fa-arrow-right ms-2"></i>
+                        </button>
+                    </form>
+
+                    <div class="text-center mt-3">
+                        <small class="text-muted"><i class="fa-solid fa-shield-halved me-1"></i> Secure Checkout</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

@@ -9,7 +9,12 @@ namespace PetShop.Models
         public int Id { get; set; }
         public DateTime Date { get; set; }
         public string statusOrder { get; set; }
+        public float? TotalPrice { get; set; }
         public ICollection<OrderItem> OrderItems { get; set; }
+
+        [ForeignKey(nameof(Address))]
+        public int? AddressId { get; set; }
+        public Address? Address { get; set; }
         public string UserId {  get; set; }
         public virtual User User { get; set; }
 
