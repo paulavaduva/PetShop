@@ -1,0 +1,186 @@
+﻿
+:root {
+    --primary-color: #ff9f1c; /* Portocaliu cald */
+    --secondary-color: #2ec4b6; /* Teal */
+    --text-dark: #2b2d42;
+    --bg-light: #f8f9fa;
+}
+
+body {
+    background-color: #f4f7f6;
+}
+
+/* Titlu */
+.page-title {
+    font-weight: 800;
+    color: var(--text-dark);
+    margin-bottom: 1.5rem;
+    position: relative;
+    display: inline-block;
+}
+
+    .page-title::after {
+        content: '';
+        display: block;
+        width: 50%;
+        height: 4px;
+        background: var(--primary-color);
+        border-radius: 2px;
+        margin-top: 5px;
+    }
+
+/* Card Produs */
+.cart-card {
+    background: #fff;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+}
+
+    .cart-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+
+.product-img-container {
+    width: 100px;
+    height: 100px;
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: #eee;
+    flex-shrink: 0;
+}
+
+    .product-img-container img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+/* Controale Cantitate */
+.quantity-wrapper {
+    background-color: #f1f3f5;
+    border-radius: 50px;
+    display: inline-flex;
+    align-items: center;
+    padding: 5px;
+}
+
+.btn-qty {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: none;
+    background-color: #fff;
+    color: var(--text-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+    .btn-qty:hover {
+        background-color: var(--primary-color);
+        color: #fff;
+    }
+
+.qty-display {
+    font-weight: 700;
+    margin: 0 12px;
+    min-width: 20px;
+    text-align: center;
+}
+
+/* Summary Card */
+.summary-card {
+    background: #fff;
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    border: 1px solid rgba(0,0,0,0.02);
+    position: sticky;
+    top: 20px;
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    color: #6c757d;
+}
+
+.summary-total {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 2px dashed #dee2e6;
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--text-dark);
+}
+
+/* Butoane Actiune */
+.btn-checkout {
+    background-color: var(--text-dark);
+    color: #fff;
+    border-radius: 12px;
+    padding: 15px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    width: 100%;
+    border: none;
+    transition: all 0.3s;
+}
+
+    .btn-checkout:hover {
+        background-color: var(--primary-color);
+        transform: scale(1.02);
+    }
+
+.btn-continue {
+    color: #6c757d;
+    text-decoration: none;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    transition: color 0.3s;
+}
+
+    .btn-continue:hover {
+        color: var(--text-dark);
+    }
+
+.btn-remove {
+    color: #ff6b6b;
+    background: rgba(255, 107, 107, 0.1);
+    border: none;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    transition: all 0.2s;
+}
+
+    .btn-remove:hover {
+        background: #ff6b6b;
+        color: #fff;
+    }
+
+/* Empty Cart */
+.empty-cart-box {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+.empty-icon {
+    font-size: 5rem;
+    color: #dee2e6;
+    margin-bottom: 1.5rem;
+}

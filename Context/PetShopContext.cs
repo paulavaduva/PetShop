@@ -13,5 +13,6 @@ namespace PetShop.Context
         public DbSet<Order> Orders { get; set; }    
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<HistoryOrders> HistoryOrders { get; set; }
+        public DbSet<Address> Address { get; set; }
     }
 }

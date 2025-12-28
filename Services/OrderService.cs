@@ -2,6 +2,7 @@
 using PetShop.Services.Interfaces;
 using PetShop.Models;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Versioning;
 
 namespace PetShop.Services
 {
@@ -31,6 +32,12 @@ namespace PetShop.Services
                 _repositoryWrapper.Save();
             }
             return cart;
+        }
+
+        public void UpdateOrder(Order order)
+        {
+            _repositoryWrapper.OrderRepository.Update(order);
+            _repositoryWrapper.Save();
         }
 
         public void AddToCart(string userId, int productId, int quantity)
@@ -94,7 +101,19 @@ namespace PetShop.Services
             return _repositoryWrapper.OrderRepository.FindByCondition(o => o.Id == orderId)
                                                      .Include(o => o.OrderItems)
                                                      .ThenInclude(oi => oi.Product)
+                                                     .Include(o => o.Address) // address
                                                      .FirstOrDefault();
+        }
+
+        public float CalculateOrderTotal(Order order)
+        {
+            if (order == null || order.OrderItems == null) return 0;
+
+            float itemsTotal = order.OrderItems.Sum(x => (x.Product?.Price ?? 0) * x.Quantity);
+
+            float deliveryFee = 9.99f;
+
+            return itemsTotal + deliveryFee;
         }
 
         public int? MarkOrderAsFinished(Order order)
@@ -110,22 +129,35 @@ namespace PetShop.Services
             _repositoryWrapper.HistoryRepository.Create(history);
             _repositoryWrapper.Save();
 
-            var finalizedOrder = new Order()
-            {
-                UserId = order.UserId,
-                Date = DateTime.UtcNow,
-                statusOrder = "Finished",
-                IdHistoryOrders = history.Id,
-                OrderItems = validItems.Select(oi => new OrderItem
-                {
-                    ProductId = oi.ProductId,
-                    Quantity = oi.Quantity
-                }).ToList()
-            };
+            float finalTotal = CalculateOrderTotal(order);
 
-            _repositoryWrapper.OrderRepository.Create(finalizedOrder);
+            //var finalizedOrder = new Order()
+            //{
+            //    UserId = order.UserId,
+            //    Date = DateTime.UtcNow,
+            //    statusOrder = "Finished",
+            //    IdHistoryOrders = history.Id,
+            //    AddressId = order.AddressId,
+            //    TotalPrice = finalTotal,
+            //    OrderItems = validItems.Select(oi => new OrderItem
+            //    {
+            //        ProductId = oi.ProductId,
+            //        Quantity = oi.Quantity
+            //    }).ToList()
+            //};
+
+            //_repositoryWrapper.OrderRepository.Create(finalizedOrder);
+            //_repositoryWrapper.Save();
+            //return finalizedOrder.Id;
+
+            order.statusOrder = "Finished";
+            order.Date = DateTime.UtcNow;
+            order.IdHistoryOrders = history.Id;
+            order.TotalPrice = finalTotal;
+
+            _repositoryWrapper.OrderRepository.Update(order);
             _repositoryWrapper.Save();
-            return finalizedOrder.Id;
+            return order.Id;
         }
 
         public string? GetUserEmailById(string userId)

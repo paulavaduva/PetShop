@@ -1,0 +1,277 @@
+﻿@model PetShop.Models.Order
+
+@{
+    ViewData["Title"] = "Checkout";
+
+    // Calculăm totalul produselor
+    var totalItems = Model.OrderItems.Sum(i => (i.Product?.Price ?? 0) * i.Quantity);
+    var defaultDeliveryFee = 9.99f;
+    var total = totalItems + defaultDeliveryFee;
+}
+
+<style>
+    :root {
+        --primary-color: #ff9f1c;
+        --secondary-color: #2ec4b6;
+        --text-dark: #2b2d42;
+        --bg-light: #f8f9fa;
+    }
+
+    body {
+        background-color: #f4f7f6;
+    }
+
+    .page-title {
+        font-weight: 800;
+        color: var(--text-dark);
+        margin-bottom: 1.5rem;
+        position: relative;
+        display: inline-block;
+    }
+
+        .page-title::after {
+            content: '';
+            display: block;
+            width: 50%;
+            height: 4px;
+            background: var(--primary-color);
+            border-radius: 2px;
+            margin-top: 5px;
+        }
+
+    .checkout-card {
+        background: #fff;
+        border: none;
+        border-radius: 20px;
+        padding: 2rem;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        margin-bottom: 1.5rem;
+    }
+
+    .section-title {
+        font-weight: 700;
+        color: var(--text-dark);
+        margin-bottom: 1.2rem;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+        .section-title i {
+            color: var(--secondary-color);
+        }
+
+    /* Formular Inputs - Stil Modern */
+    .form-label {
+        font-weight: 600;
+        font-size: 0.9rem;
+        color: var(--text-dark);
+        margin-bottom: 0.3rem;
+    }
+
+    .form-control {
+        border-radius: 10px;
+        padding: 0.75rem 1rem;
+        border: 2px solid #eee;
+        transition: all 0.3s;
+    }
+
+        .form-control:focus {
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 0.2rem rgba(46, 196, 182, 0.15);
+        }
+
+    /* Metode de Plata */
+    .payment-option-label {
+        display: block;
+        cursor: pointer;
+        border: 2px solid #dee2e6;
+        border-radius: 12px;
+        padding: 1rem;
+        transition: all 0.2s;
+        background: #fff;
+    }
+
+        .payment-option-label:hover {
+            border-color: var(--secondary-color);
+            background-color: #f1fcfb;
+        }
+
+    .form-check-input:checked + .payment-option-label {
+        border-color: var(--primary-color);
+        background-color: #fff8f0;
+        box-shadow: 0 4px 10px rgba(255, 159, 28, 0.15);
+    }
+
+    .form-check-input {
+        display: none;
+    }
+
+    /* Summary Card (Sticky) */
+    .summary-card {
+        position: sticky;
+        top: 20px;
+        background: #2b2d42;
+        color: #fff;
+    }
+
+    .summary-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 1rem;
+        color: rgba(255,255,255, 0.7);
+    }
+
+    .summary-total {
+        border-top: 1px solid rgba(255,255,255, 0.2);
+        padding-top: 1.5rem;
+        margin-top: 1.5rem;
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--primary-color);
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .btn-place-order {
+        background-color: var(--primary-color);
+        color: #fff;
+        font-weight: 700;
+        padding: 15px;
+        border-radius: 12px;
+        width: 100%;
+        border: none;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+        .btn-place-order:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 159, 28, 0.4);
+            background-color: #e68a0d;
+        }
+</style>
+
+<div class="container my-5">
+    <div class="row">
+        <div class="col-12">
+            <h2 class="page-title">Checkout</h2>
+        </div>
+    </div>
+
+    @if (TempData["StockErrors"] != null)
+    {
+        <div class="alert alert-danger shadow-sm rounded-4 border-0 mb-4" role="alert">
+            <i class="fa-solid fa-triangle-exclamation me-2"></i> @Html.Raw(TempData["StockErrors"])
+        </div>
+    }
+
+    <form asp-action="PlaceOrder" asp-controller="Orders" method="post" id="checkoutForm">
+        @Html.AntiForgeryToken()
+
+        <div class="row">
+            <div class="col-lg-7">
+
+                <div class="checkout-card fade-in-up">
+                    <h4 class="section-title"><i class="fa-solid fa-location-dot"></i> Delivery Address</h4>
+
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label class="form-label">Phone Number</label>
+                            <input type="tel" name="PhoneNumber" class="form-control" placeholder="07xx xxx xxx" required />
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label">Street Address</label>
+                            <input type="text" name="Street" class="form-control" placeholder="Street name, number, building..." required />
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">City</label>
+                            <input type="text" name="City" class="form-control" placeholder="City" required />
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">County</label>
+                            <input type="text" name="County" class="form-control" placeholder="County" required />
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Zip Code</label>
+                            <input type="text" name="ZipCode" class="form-control" placeholder="123456" required />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="checkout-card fade-in-up">
+                    <h4 class="section-title"><i class="fa-solid fa-truck-fast"></i> Delivery Method</h4>
+
+                    <div class="p-3 border border-success border-opacity-25 bg-success bg-opacity-10 rounded-3 d-flex justify-content-between align-items-center">
+                        <div>
+                            <span class="fw-bold text-success"><i class="fa-solid fa-box me-2"></i> Standard Delivery</span>
+                            <div class="small text-muted">Expected 2-3 business days</div>
+                        </div>
+                        <span class="fw-bold text-dark">@defaultDeliveryFee.ToString("0.00") Lei</span>
+                    </div>
+                    <input type="hidden" name="DeliveryMethod" value="Standard" />
+                </div>
+
+                <div class="checkout-card fade-in-up">
+                    <h4 class="section-title"><i class="fa-solid fa-credit-card"></i> Payment Method</h4>
+
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <input class="form-check-input" type="radio" name="PaymentMethod" id="card" value="Card" checked required />
+                            <label class="payment-option-label text-center h-100" for="card">
+                                <i class="fa-brands fa-cc-visa fa-2x mb-2 text-primary"></i>
+                                <i class="fa-brands fa-cc-mastercard fa-2x mb-2 text-danger"></i>
+                                <div class="fw-bold">Pay with Card</div>
+                                <small class="text-muted">Secure online payment</small>
+                            </label>
+                        </div>
+                        <div class="col-md-6">
+                            <input class="form-check-input" type="radio" name="PaymentMethod" id="cash" value="Cash" required />
+                            <label class="payment-option-label text-center h-100" for="cash">
+                                <i class="fa-solid fa-money-bill-wave fa-2x mb-2 text-success"></i>
+                                <div class="fw-bold">Cash on Delivery</div>
+                                <small class="text-muted">Pay when you receive</small>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-lg-5">
+                <div class="checkout-card summary-card shadow-lg">
+                    <h4 class="mb-4 text-white">Order Summary</h4>
+
+                    <div class="summary-row">
+                        <span>Items Subtotal</span>
+                        <span>@totalItems.ToString("0.00") Lei</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Delivery Fee</span>
+                        <span>@defaultDeliveryFee.ToString("0.00") Lei</span>
+                    </div>
+
+                    <div class="summary-total">
+                        <span>Total</span>
+                        <span>@total.ToString("0.00") Lei</span>
+                    </div>
+
+                    @* <input type="hidden" name="TotalPrice" value="@total.ToString("0.00")" /> *@
+
+                    <button type="submit" class="btn-place-order mt-4 shadow" id="placeOrderBtn">
+                        Place Order <i class="fa-solid fa-check ms-2"></i>
+                    </button>
+
+                    <div class="text-center mt-4">
+                        <a asp-controller="Orders" asp-action="Index" class="text-white-50 text-decoration-none small">
+                            <i class="fa-solid fa-arrow-left me-1"></i> Back to Cart
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

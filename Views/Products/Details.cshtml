@@ -71,6 +71,9 @@
                         {
 
                             <div class="d-grid gap-2">
+                                <span>
+                                    Stoc: @Model.Stock 
+                                </span>
                                 <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning btn-lg">
                                     <i class="fa-solid fa-pen"></i> Editeaza 
                                 </a>
@@ -86,8 +89,8 @@
                         @if (Model.Stock > 0)
                         {
                             <form asp-controller="Orders" asp-action="AddToCart" method="post">
-                                <input type="hidden" name="bookId" value="@Model.Id" />
-
+                                <input type="hidden" name="productId" value="@Model.Id" />
+                                
                                 <div class="row align-items-end">
                                     <div class="col-4">
                                         <label for="quantity" class="form-label">Cantitate:</label>
@@ -95,7 +98,7 @@
                                     </div>
                                     <div class="col-8">
                                         <button type="submit" class="btn btn-success btn-lg w-100">
-                                            <i class="fas fa-shopping-cart"></i> Add to cart
+                                            <i class="fas fa-shopping-cart"></i> Adauga in Cos
                                         </button>
                                     </div>
                                 </div>
