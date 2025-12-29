@@ -20,6 +20,7 @@ namespace PetShop.Repositories
         public Order? GetFinishedOrderById(int id)
         {
             return PetShopContext.Orders
+                .Include(o => o.Address)
                 .Include(o => o.OrderItems)
                     .ThenInclude(oi => oi.Product)
                 .Where(o => o.statusOrder == "Finished" && o.Id == id)

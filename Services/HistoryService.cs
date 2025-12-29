@@ -9,23 +9,29 @@ namespace PetShop.Services
     public class HistoryService : IHistoryService
     {
         private readonly IRepositoryWrapper _repositoryWrapper;
-        //private readonly IOrderRepository _orderRepository;
-        public HistoryService(IRepositoryWrapper repositoryWrapper/*, IOrderRepository orderRepository*/)
+        public HistoryService(IRepositoryWrapper repositoryWrapper)
         {
             _repositoryWrapper = repositoryWrapper;
-            //_orderRepository = orderRepository;
         }
-        public IEnumerable<HistoryOrders> GetHistoryOrders()
+        public IEnumerable<Order> GetHistoryOrders(string userId, bool isAdmin)
         {
-            return _repositoryWrapper.HistoryRepository.FindAll()
-                .Include(h => h.Orders)
-                    .ThenInclude(o => o.OrderItems)
-                    .ThenInclude(oi => oi.Product)
-                .AsEnumerable()
-                .Where(h => h.Orders.Any(
-                    o => o.OrderItems != null &&
-                    o.OrderItems.Any(oi => oi.Product != null)))
-                .ToList();
+            var orders = _repositoryWrapper.OrderRepository.FindByCondition(o => o.statusOrder == "Finished");
+            if (orders == null)
+            {
+                return null;
+            }
+
+            if (!isAdmin)
+            {
+                orders = orders.Where(o => o.UserId == userId);
+            }
+
+            return orders.Include(o => o.OrderItems).ThenInclude(oi => oi.Product)
+                         .Include(o => o.Address)
+                         .Include(o => o.User)
+                         //.Include(o => o.TotalPrice)
+                         .OrderByDescending(o => o.Date)
+                         .ToList();
         }
 
         public Order? GetFinishedOrderById(int orderId)
