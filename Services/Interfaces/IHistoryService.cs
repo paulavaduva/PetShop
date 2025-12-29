@@ -4,7 +4,7 @@ namespace PetShop.Services.Interfaces
 {
     public interface IHistoryService
     {
-        IEnumerable<HistoryOrders> GetHistoryOrders();
+        IEnumerable<Order> GetHistoryOrders(string userId, bool isAdmin);
         Order? GetFinishedOrderById(int orderId);
     }
 }

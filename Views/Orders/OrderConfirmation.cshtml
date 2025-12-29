@@ -135,7 +135,7 @@
                             <div class="info-value">#@Model.Id</div>
 
                             <div class="info-label">Date Placed</div>
-                            <div class="info-value">@Model.Date.ToString("dd MMMM yyyy, HH:mm")</div>
+                            <div class="info-value">@Model.Date.ToLocalTime().ToString("dd MMMM yyyy, HH:mm")</div>
 
                             <div class="info-label">Status</div>
                             <div class="info-value">
@@ -149,7 +149,7 @@
                             <div class="info-label"><i class="fa-solid fa-location-dot me-1"></i> Shipping To</div>
                             @if (Model.Address != null)
                             {
-                                @* <div class="text-dark fw-bold mb-1">Phone Number: @Model.Address.PhoneNumber</div> *@
+                                <div class="text-dark fw-bold mb-1">Phone Number: @Model.Address.PhoneNumber</div>
                                 <div class="text-muted">
                                     @Model.Address.Street<br>
                                     @Model.Address.City, @Model.Address.County<br>
