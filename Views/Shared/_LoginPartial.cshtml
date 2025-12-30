@@ -3,12 +3,21 @@
 @inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+
+<link rel="stylesheet" href="~/PetShop.styles.css" asp-append-version="true" />
+
 <ul class="navbar-nav">
 @if (SignInManager.IsSignedIn(User))
 {
     <li class="nav-item">
         <a class="nav-link" asp-controller="Orders" asp-action="Index">
-            <i class="fas fa-shopping-cart"></i> Cos
+            <i class="fa-solid fa-cart-shopping" style="color: #ff9f1c;"></i> Coș
             <span id="cart-badge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger d-none" style="font-size: 0.6rem;">
                 0
                 <span class="visually-hidden">unread messages</span>
@@ -16,11 +25,13 @@
         </a>
     </li>
     <li class="nav-item">
-        <a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
+        <a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Mergi la Profil">
+                <i class="fa-solid fa-user" style="color: #2b2d42"></i> Cont
+        </a>
     </li>
     <li class="nav-item">
         <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-            <button id="logout" type="submit" class="nav-link btn btn-link text-dark border-0">Logout</button>
+                <button id="logout" type="submit" class="nav-link btn btn-link text-dark border-0"><i class="fa-solid fa-right-from-bracket" style="color: #a20808"></i> Deconectare</button>
         </form>
     </li>
 }

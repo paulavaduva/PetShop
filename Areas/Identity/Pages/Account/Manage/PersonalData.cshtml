@@ -1,24 +1,65 @@
 ﻿@page
 @model PersonalDataModel
 @{
-    ViewData["Title"] = "Personal Data";
+    ViewData["Title"] = "Date Personale";
     ViewData["ActivePage"] = ManageNavPages.PersonalData;
 }
 
-<h3>@ViewData["Title"]</h3>
+<div class="row justify-content-center">
+    <div class="col-lg-10">
 
-<div class="row">
-    <div class="col-md-6">
-        <p>Your account contains personal data that you have given us. This page allows you to download or delete that data.</p>
-        <p>
-            <strong>Deleting this data will permanently remove your account, and this cannot be recovered.</strong>
-        </p>
-        <form id="download-data" asp-page="DownloadPersonalData" method="post">
-            <button class="btn btn-primary" type="submit">Download</button>
-        </form>
-        <p>
-            <a id="delete" asp-page="DeletePersonalData" class="btn btn-danger">Delete</a>
-        </p>
+        <div class="mb-4">
+            <h4 class="fw-bold"><i class="fa-solid fa-user-shield text-primary me-2"></i>Date Personale</h4>
+            <p class="text-muted">Gestionează datele pe care le deținem despre tine.</p>
+        </div>
+
+        <div class="alert alert-warning border-0 shadow-sm rounded-3 mb-4 d-flex align-items-center">
+            <i class="fa-solid fa-circle-info fs-4 me-3 text-warning"></i>
+            <div>
+                Contul tău conține date personale pe care ni le-ai oferit. Această pagină îți permite să le descarci sau să le ștergi definitiv.
+            </div>
+        </div>
+
+        <div class="card border-0 shadow-sm rounded-4 mb-4">
+            <div class="card-body p-4 d-flex align-items-center justify-content-between flex-wrap gap-3">
+                <div class="d-flex align-items-center">
+                    <div class="bg-primary bg-opacity-10 p-3 rounded-circle me-3 text-primary">
+                        <i class="fa-solid fa-cloud-arrow-down fs-4"></i>
+                    </div>
+                    <div>
+                        <h6 class="fw-bold mb-1 text-dark">Descarcă Datele</h6>
+                        <p class="mb-0 text-muted small">Obține o copie a tuturor informațiilor tale.</p>
+                    </div>
+                </div>
+
+                <form id="download-data" asp-page="DownloadPersonalData" method="post">
+                    <button class="btn btn-outline-primary rounded-pill fw-bold px-4" type="submit">
+                        <i class="fa-solid fa-download me-2"></i> Descarcă
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <div class="card border-0 shadow-sm rounded-4 bg-danger bg-opacity-10">
+            <div class="card-body p-4 d-flex align-items-center justify-content-between flex-wrap gap-3">
+                <div class="d-flex align-items-center">
+                    <div class="bg-white p-3 rounded-circle me-3 text-danger shadow-sm">
+                        <i class="fa-solid fa-trash-can fs-4"></i>
+                    </div>
+                    <div>
+                        <h6 class="fw-bold mb-1 text-danger">Șterge Contul</h6>
+                        <p class="mb-0 text-danger text-opacity-75 small">
+                            <strong>Atenție!</strong> Această acțiune este ireversibilă.
+                        </p>
+                    </div>
+                </div>
+
+                <a id="delete" asp-page="DeletePersonalData" class="btn btn-danger rounded-pill fw-bold px-4 shadow-sm">
+                    <i class="fa-solid fa-user-xmark me-2"></i> Șterge
+                </a>
+            </div>
+        </div>
+
     </div>
 </div>
 

@@ -1,31 +1,83 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Profile";
+    ViewData["Title"] = "Profilul Meu";
     ViewData["ActivePage"] = ManageNavPages.Index;
 }
 
-<h3>@ViewData["Title"]</h3>
 <partial name="_StatusMessage" for="StatusMessage" />
-<div class="row">
-    <div class="col-md-6">
+
+<div class="row justify-content-center">
+    <div class="col-lg-10">
+
+        <div class="text-center mb-5">
+            <div class="d-inline-flex align-items-center justify-content-center bg-primary bg-opacity-10 rounded-circle mb-3" style="width: 100px; height: 100px;">
+                <i class="fa-solid fa-user text-primary" style="font-size: 3rem;"></i>
+            </div>
+            <h4 class="fw-bold mb-1">Salut, @(string.IsNullOrEmpty(Model.Input.FirstName) ? "Utilizator" : Model.Input.FirstName)!</h4>
+            <p class="text-muted mb-0">Gestionează datele tale personale mai jos.</p>
+        </div>
+
         <form id="profile-form" method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
-            <div class="form-floating mb-3">
-                <input asp-for="Username" class="form-control" placeholder="Please choose your username." disabled />
-                <label asp-for="Username" class="form-label"></label>
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3" role="alert"></div>
+
+            <div class="row g-3">
+
+                <div class="col-12 mb-2">
+                    <div class="form-floating">
+                        <input asp-for="Username" class="form-control bg-light text-muted" placeholder="Email" disabled />
+                        <label asp-for="Username" class="form-label"><i class="fa-solid fa-envelope me-2 text-secondary"></i>Email (Cont)</label>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-floating">
+                        <input asp-for="Input.FirstName" class="form-control" placeholder="Prenume" />
+                        <label asp-for="Input.FirstName" class="form-label">Prenume</label>
+                        <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-floating">
+                        <input asp-for="Input.LastName" class="form-control" placeholder="Nume" />
+                        <label asp-for="Input.LastName" class="form-label">Nume de familie</label>
+                        <span asp-validation-for="Input.LastName" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <div class="form-floating">
+                        <input asp-for="Input.PhoneNumber" class="form-control" placeholder="Telefon" />
+                        <label asp-for="Input.PhoneNumber" class="form-label"><i class="fa-solid fa-phone me-2 text-secondary"></i>Număr de telefon</label>
+                        <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+                    </div>
+                </div>
             </div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.PhoneNumber" class="form-control" placeholder="Please enter your phone number."/>
-                <label asp-for="Input.PhoneNumber" class="form-label"></label>
-                <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+
+            <div class="mt-4 mb-5">
+                <button id="update-profile-button" type="submit" class="btn btn-primary btn-lg rounded-pill px-5 w-100 fw-bold shadow-sm">
+                    <i class="fa-solid fa-check me-2"></i> Salvează Modificările
+                </button>
             </div>
-            <button id="update-profile-button" type="submit" class="w-100 btn btn-lg btn-primary">Save</button>
         </form>
 
-        <hr class="my-4" /> <a asp-controller="HistoryOrders" asp-action="Index" class="w-100 btn btn-lg btn-outline-info">
-            <i class="fa-solid fa-clock-rotate-left me-2"></i> Vezi Istoricul Comenzilor
-        </a>
+        @* <div class="card border-0 shadow-sm bg-info bg-opacity-10 rounded-4 overflow-hidden">
+            <div class="card-body p-4 d-flex align-items-center justify-content-between flex-wrap gap-3">
+                <div class="d-flex align-items-center">
+                    <div class="bg-white p-3 rounded-circle shadow-sm me-3 text-info">
+                        <i class="fa-solid fa-clock-rotate-left fs-4"></i>
+                    </div>
+                    <div>
+                        <h6 class="fw-bold mb-1 text-dark">Istoric Comenzi</h6>
+                        <p class="mb-0 text-muted small">Vezi statusul comenzilor tale anterioare.</p>
+                    </div>
+                </div>
+
+                <a asp-controller="HistoryOrders" asp-action="Index" class="btn btn-info text-white fw-bold rounded-pill px-4">
+                    Vezi Istoricul <i class="fa-solid fa-arrow-right ms-2"></i>
+                </a>
+            </div>
+        </div> *@
 
     </div>
 </div>

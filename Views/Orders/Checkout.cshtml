@@ -1,9 +1,8 @@
 ﻿@model PetShop.Models.Order
 
 @{
-    ViewData["Title"] = "Checkout";
+    ViewData["Title"] = "Finalizare Comandă";
 
-    // Calculăm totalul produselor
     var totalItems = Model.OrderItems.Sum(i => (i.Product?.Price ?? 0) * i.Quantity);
     var defaultDeliveryFee = 9.99f;
     var total = totalItems + defaultDeliveryFee;
@@ -154,7 +153,7 @@
 <div class="container my-5">
     <div class="row">
         <div class="col-12">
-            <h2 class="page-title">Checkout</h2>
+            <h2 class="page-title">Finalizare Comandă</h2>
         </div>
     </div>
 
@@ -172,43 +171,43 @@
             <div class="col-lg-7">
 
                 <div class="checkout-card fade-in-up">
-                    <h4 class="section-title"><i class="fa-solid fa-location-dot"></i> Delivery Address</h4>
+                    <h4 class="section-title"><i class="fa-solid fa-location-dot"></i> Adresă Livrare</h4>
 
                     <div class="row g-3">
                         <div class="col-12">
-                            <label class="form-label">Phone Number</label>
+                            <label class="form-label">Număr Telefon</label>
                             <input type="tel" name="PhoneNumber" class="form-control" placeholder="07xx xxx xxx" required />
                         </div>
 
                         <div class="col-12">
-                            <label class="form-label">Street Address</label>
-                            <input type="text" name="Street" class="form-control" placeholder="Street name, number, building..." required />
+                            <label class="form-label">Adresă (Stradă, Număr)</label>
+                            <input type="text" name="Street" class="form-control" placeholder="Nume stradă, număr, bloc, ap..." required />
                         </div>
 
                         <div class="col-md-6">
-                            <label class="form-label">City</label>
-                            <input type="text" name="City" class="form-control" placeholder="City" required />
+                            <label class="form-label">Oraș</label>
+                            <input type="text" name="City" class="form-control" placeholder="Oraș" required />
                         </div>
 
                         <div class="col-md-6">
-                            <label class="form-label">County</label>
-                            <input type="text" name="County" class="form-control" placeholder="County" required />
+                            <label class="form-label">Județ</label>
+                            <input type="text" name="County" class="form-control" placeholder="Județ" required />
                         </div>
 
                         <div class="col-md-6">
-                            <label class="form-label">Zip Code</label>
+                            <label class="form-label">Cod Poștal</label>
                             <input type="text" name="ZipCode" class="form-control" placeholder="123456" required />
                         </div>
                     </div>
                 </div>
 
                 <div class="checkout-card fade-in-up">
-                    <h4 class="section-title"><i class="fa-solid fa-truck-fast"></i> Delivery Method</h4>
+                    <h4 class="section-title"><i class="fa-solid fa-truck-fast"></i> Metodă Livrare</h4>
 
                     <div class="p-3 border border-success border-opacity-25 bg-success bg-opacity-10 rounded-3 d-flex justify-content-between align-items-center">
                         <div>
-                            <span class="fw-bold text-success"><i class="fa-solid fa-box me-2"></i> Standard Delivery</span>
-                            <div class="small text-muted">Expected 2-3 business days</div>
+                            <span class="fw-bold text-success"><i class="fa-solid fa-box me-2"></i> Livrare Standard</span>
+                            <div class="small text-muted">Estimat 2-3 zile lucrătoare</div>
                         </div>
                         <span class="fw-bold text-dark">@defaultDeliveryFee.ToString("0.00") Lei</span>
                     </div>
@@ -216,7 +215,7 @@
                 </div>
 
                 <div class="checkout-card fade-in-up">
-                    <h4 class="section-title"><i class="fa-solid fa-credit-card"></i> Payment Method</h4>
+                    <h4 class="section-title"><i class="fa-solid fa-credit-card"></i> Metodă Plată</h4>
 
                     <div class="row g-3">
                         <div class="col-md-6">
@@ -224,16 +223,16 @@
                             <label class="payment-option-label text-center h-100" for="card">
                                 <i class="fa-brands fa-cc-visa fa-2x mb-2 text-primary"></i>
                                 <i class="fa-brands fa-cc-mastercard fa-2x mb-2 text-danger"></i>
-                                <div class="fw-bold">Pay with Card</div>
-                                <small class="text-muted">Secure online payment</small>
+                                <div class="fw-bold">Plata cu Cardul</div>
+                                <small class="text-muted">Plată online securizată</small>
                             </label>
                         </div>
                         <div class="col-md-6">
                             <input class="form-check-input" type="radio" name="PaymentMethod" id="cash" value="Cash" required />
                             <label class="payment-option-label text-center h-100" for="cash">
                                 <i class="fa-solid fa-money-bill-wave fa-2x mb-2 text-success"></i>
-                                <div class="fw-bold">Cash on Delivery</div>
-                                <small class="text-muted">Pay when you receive</small>
+                                <div class="fw-bold">Ramburs (La Livrare)</div>
+                                <small class="text-muted">Plătești când primești</small>
                             </label>
                         </div>
                     </div>
@@ -243,14 +242,14 @@
 
             <div class="col-lg-5">
                 <div class="checkout-card summary-card shadow-lg">
-                    <h4 class="mb-4 text-white">Order Summary</h4>
+                    <h4 class="mb-4 text-white">Sumar Comandă</h4>
 
                     <div class="summary-row">
-                        <span>Items Subtotal</span>
+                        <span>Subtotal Produse</span>
                         <span>@totalItems.ToString("0.00") Lei</span>
                     </div>
                     <div class="summary-row">
-                        <span>Delivery Fee</span>
+                        <span>Taxă Livrare</span>
                         <span>@defaultDeliveryFee.ToString("0.00") Lei</span>
                     </div>
 
@@ -262,12 +261,12 @@
                     @* <input type="hidden" name="TotalPrice" value="@total.ToString("0.00")" /> *@
 
                     <button type="submit" class="btn-place-order mt-4 shadow" id="placeOrderBtn">
-                        Place Order <i class="fa-solid fa-check ms-2"></i>
+                        Plasează Comanda <i class="fa-solid fa-check ms-2"></i>
                     </button>
 
                     <div class="text-center mt-4">
                         <a asp-controller="Orders" asp-action="Index" class="text-white-50 text-decoration-none small">
-                            <i class="fa-solid fa-arrow-left me-1"></i> Back to Cart
+                            <i class="fa-solid fa-arrow-left me-1"></i> Înapoi la Coș
                         </a>
                     </div>
                 </div>
