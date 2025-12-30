@@ -1,35 +1,49 @@
 ﻿@model IEnumerable<PetShop.Models.Category>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Categorii";
 }
 
-<h1>Index</h1>
+<div class="container my-5">
+    
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold text-dark">Categorii</h2>
+        <a asp-action="Create" class="btn btn-primary fw-bold shadow-sm rounded-pill px-4">
+            <i class="fa-solid fa-plus me-2"></i> Adaugă Categorie
+        </a>
+    </div>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+    <div class="card border-0 shadow-sm rounded-3 overflow-hidden">
+        <div class="table-responsive">
+            <table class="table table-hover mb-0 align-middle">
+                <thead class="bg-light text-secondary text-uppercase small">
+                    <tr>
+                        <th class="py-3 ps-4">
+                            <i class="fa-solid fa-tag me-2"></i> @Html.DisplayNameFor(model => model.Name)
+                        </th>
+                        <th class="py-3 text-end pe-4">Acțiuni</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model) {
+                        <tr>
+                            <td class="ps-4 fw-bold text-dark">
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td class="text-end pe-4">
+                                <div class="btn-group" role="group">
+                                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-warning" title="Editează">
+                                        <i class="fa-solid fa-pen-to-square"></i> Editeaza
+                                    </a>
+                                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger" title="Șterge">
+                                        <i class="fa-solid fa-trash-can"></i> Șterge
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
