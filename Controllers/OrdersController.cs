@@ -39,6 +39,7 @@ namespace PetShop.Controllers
         }
 
         // GET: Orders
+        [Authorize]
         public async Task<IActionResult> Index()
         {
             var userId = GetCurrentUserId();
@@ -221,43 +222,11 @@ namespace PetShop.Controllers
             var order = _orderService.GetOrderById(id);
             if (order == null)
                 return NotFound();
-            //var defaultDeliveryFee = 9.99f;
+
             var total = _orderService.CalculateOrderTotal(order);
             var date = order.Date.ToString("dd.MM.yyyy HH:mm");
 
-            //var address = _addressService.GetAddressByUserId(order.IdUser);
-            //var addressDetails = address != null ? $"{address.Street}, {address.City}, {address.ZipCode}, {address.County}" : "No address available";
-
             var itemDetails = string.Join("\n", order.OrderItems.Select(item => $"{item.Product.Name} (x{item.Quantity})"));
-
-            //var mailBody = $@"
-            //    Thank you for your order!
-
-            //    Order Number: #{order.Id}
-            //    Date: {date}
-            //    Total: {total:0.00} Lei
-            //    Delivery Address: {addressDetails}
-
-            //    Items ordered:
-            //    {itemDetails}
-
-            //    We appreciate your trust in Bookstore!
-            //    ";
-
-            //var mail = new MailMessage
-            //{
-            //    Subject = "Order Confirmation - Bookstore",
-            //    Body = mailBody,
-            //    IsBodyHtml = false
-            //};
-
-            //var userEmail = _orderService.GetUserEmailById(order.UserId);
-            //if (!string.IsNullOrEmpty(userEmail))
-            //{
-            //    mail.To.Add(userEmail);
-            //    mail.From = new MailAddress("MS_1jRdlE@test-eqvygm003x8l0p7w.mlsender.net", "Bookstore App");
-            //    await _mailService.SendEmailAsync(mail);
-            //}
 
             _orderService.ClearCart(order.UserId);
             return View(order);
@@ -293,6 +262,7 @@ namespace PetShop.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public IActionResult GetCartItemCount()
         {
             try

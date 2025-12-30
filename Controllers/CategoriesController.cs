@@ -129,10 +129,5 @@ namespace PetShop.Controllers
             _categoryService.DeleteCategory(id);
             return RedirectToAction(nameof(Index));
         }
-
-        //private bool CategoryExists(int id)
-        //{
-        //    return _context.Categories.Any(e => e.Id == id);
-        //}
     }
 }

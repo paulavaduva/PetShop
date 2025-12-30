@@ -25,6 +25,7 @@ namespace PetShop.Controllers
         }
 
         // GET: Products
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             var products = _productService.GetAllProducts().Select(p => mapProduct(p)).ToList();
@@ -63,6 +64,7 @@ namespace PetShop.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([Bind("Id,Name,Description,Price,Stock,ProductImage,CategoryId,ImageFile")] ProductDto productDto)
         {
             var product = mapProduct(productDto);
@@ -155,6 +157,7 @@ namespace PetShop.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [AllowAnonymous]
         public IActionResult ProductsByCategory(int categoryId)
         {
             var productDto = _productService.GetProductsByCategory(categoryId);
