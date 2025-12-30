@@ -52,10 +52,10 @@
 
                         <div class="mt-auto">
                             <div class="d-flex justify-content-between align-items-center mb-3">
-                                <span class="h4 mb-0 text-success">@item.Price RON</span>
+                                <span class="h4 mb-0 text-success">@item.Price Lei</span>
                                 @if (item.Stock > 0)
                                 {
-                                    <small class="text-success"><i class="bi bi-check-circle-fill"></i> In Stoc</small>
+                                    <small class="text-success"><i class="bi bi-check-circle-fill"></i> În Stoc</small>
                                 }
                                 else
                                 {
@@ -69,10 +69,10 @@
                                 {
                                     <div class="btn-group w-100" role="group">
                                         <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-warning">
-                                            <i class="fa-solid fa-pen"></i> Edit
+                                            <i class="fa-solid fa-pen"></i> Editează
                                         </a>
                                         <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger">
-                                            <i class="fa-solid fa-trash"></i> Sterge
+                                            <i class="fa-solid fa-trash"></i> Șterge
                                         </a>
                                     </div>
                                 }
@@ -86,14 +86,14 @@
                                             <input type="hidden" name="quantity" value="1" />
 
                                             <button type="submit" class="btn btn-success btn-lg w-100">
-                                                <i class="fas fa-shopping-cart"></i> Add to cart
+                                                <i class="fas fa-shopping-cart"></i> Adaugă În Coș
                                             </button>
                                         </form>
                                     }
                                     else
                                     {
                                         <button class="btn btn-secondary btn-lg w-100" disabled>
-                                            <i class="fas fa-ban"></i> Sold out
+                                            <i class="fas fa-ban"></i> Stoc Epuizat
                                         </button>
                                     }
                                 

@@ -45,12 +45,12 @@
                         <h1 class="display-5 fw-bold text-dark mb-3">@Model.Name</h1>
 
                         <div class="d-flex align-items-center mb-4">
-                            <h3 class="text-success mb-0 me-4">@Model.Price RON</h3>
+                            <h3 class="text-success mb-0 me-4">@Model.Price Lei</h3>
 
                             @if (Model.Stock > 0)
                             {
                                 <span class="badge bg-success">
-                                    <i class="bi bi-check-circle"></i> In Stoc
+                                    <i class="bi bi-check-circle"></i> În Stoc
                                 </span>
                             }
                             else
@@ -75,11 +75,11 @@
                                     Stoc: @Model.Stock 
                                 </span>
                                 <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning btn-lg">
-                                    <i class="fa-solid fa-pen"></i> Editeaza 
+                                    <i class="fa-solid fa-pen"></i> Editează 
                                 </a>
                                 <div class="d-flex gap-2">
                                     <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-outline-danger flex-grow-1">
-                                        <i class="fa-solid fa-trash"></i> Sterge
+                                        <i class="fa-solid fa-trash"></i> Șterge
                                     </a>
                                 </div>
                             </div>
@@ -98,7 +98,7 @@
                                     </div>
                                     <div class="col-8">
                                         <button type="submit" class="btn btn-success btn-lg w-100">
-                                            <i class="fas fa-shopping-cart"></i> Adauga in Cos
+                                            <i class="fas fa-shopping-cart"></i> Adaugă În Coș
                                         </button>
                                     </div>
                                 </div>
@@ -107,7 +107,7 @@
                         else
                         {
                             <button class="btn btn-secondary btn-lg w-100" disabled>
-                                <i class="fas fa-ban"></i> Sold out
+                                <i class="fas fa-ban"></i> Stoc Epuizat
                             </button>
                         }
                     </div>

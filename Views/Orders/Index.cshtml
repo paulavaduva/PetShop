@@ -1,7 +1,7 @@
 ﻿@model PetShop.Models.Order
 
 @{
-    ViewData["Title"] = "Shopping Cart";
+    ViewData["Title"] = "Coș de Cumpărături";
     decimal total = 0;
 }
 
@@ -19,10 +19,10 @@
                     <div class="empty-icon">
                         <i class="fa-solid fa-cat fa-bounce"></i>
                     </div>
-                    <h2 class="mb-3 fw-bold">Your cart is empty!</h2>
-                    <p class="text-muted mb-4">Looks like your pet hasn't picked anything yet.</p>
+                    <h2 class="mb-3 fw-bold">Coșul tău este gol!</h2>
+                    <p class="text-muted mb-4">Se pare că animăluțul tău nu a ales nimic încă.</p>
                     <a asp-controller="Products" asp-action="Index" class="btn btn-checkout" style="max-width: 250px;">
-                        Start Shopping
+                        Începe Cumpărăturile
                     </a>
                 </div>
             </div>
@@ -31,7 +31,7 @@
     else
     {
         <div class="row">
-            <h2 class="page-title">Your Cart</h2>
+            <h2 class="page-title">Coșul Tău</h2>
 
             <div class="col-lg-8">
                 @foreach (var item in Model.OrderItems)
@@ -60,7 +60,7 @@
 
                             <div class="flex-grow-1">
                                 <h5 class="fw-bold mb-1">@(item.Product?.Name ?? "Unknown Product")</h5>
-                                <span class="text-muted small">Unit Price: @itemPrice.ToString("0.00") Lei</span>
+                                <span class="text-muted small">Preț Unitar: @itemPrice.ToString("0.00") Lei</span>
                             </div>
 
                             <div class="quantity-wrapper">
@@ -96,7 +96,7 @@
                                 <form asp-action="RemoveFromCart" method="post">
                                     <input type="hidden" name="productId" value="@item.ProductId" />
                                     <button type="submit" class="btn-remove">
-                                        <i class="fa-regular fa-trash-can"></i> Remove
+                                        <i class="fa-regular fa-trash-can"></i> Șterge
                                     </button>
                                 </form>
                             </div>
@@ -107,12 +107,12 @@
 
                 <div class="d-flex justify-content-between align-items-center mt-4">
                     <a asp-controller="Products" asp-action="Index" class="btn-continue">
-                        <i class="fa-solid fa-arrow-left-long me-2"></i> Continue Shopping
+                        <i class="fa-solid fa-arrow-left-long me-2"></i> Continuă Cumpărăturile
                     </a>
 
                     <form asp-action="ClearCart" method="post">
                         <button type="submit" class="btn btn-outline-danger btn-sm border-0" onclick="return confirm('Clear entire cart?');">
-                            Empty Cart
+                            Golește Coșul
                         </button>
                     </form>
                 </div>
@@ -120,7 +120,7 @@
 
             <div class="col-lg-4 mt-4 mt-lg-0">
                 <div class="summary-card">
-                    <h4 class="fw-bold mb-4">Order Summary</h4>
+                    <h4 class="fw-bold mb-4">Sumar Comandă</h4>
 
                     <div class="summary-row">
                         <span>Subtotal</span>
@@ -139,12 +139,12 @@
                     <form asp-controller="Orders" asp-action="Checkout" method="get" class="mt-4">
                         <input type="hidden" name="id" value="@Model.Id" />
                         <button type="submit" class="btn-checkout shadow">
-                            Proceed to Checkout <i class="fa-solid fa-arrow-right ms-2"></i>
+                            Finalizează Comanda <i class="fa-solid fa-arrow-right ms-2"></i>
                         </button>
                     </form>
 
                     <div class="text-center mt-3">
-                        <small class="text-muted"><i class="fa-solid fa-shield-halved me-1"></i> Secure Checkout</small>
+                        <small class="text-muted"><i class="fa-solid fa-shield-halved me-1"></i> Plată Securizată</small>
                     </div>
                 </div>
             </div>

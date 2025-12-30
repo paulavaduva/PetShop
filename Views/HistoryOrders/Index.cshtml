@@ -1,18 +1,25 @@
 ﻿@model IEnumerable<PetShop.Models.Order>
 
 @{
-    ViewData["Title"] = "Order History";
+    ViewData["Title"] = "Istoric Comenzi";
 }
 
 <div class="container my-5">
+
+    <div class="mb-3">
+        <a asp-area="Identity" asp-page="/Account/Manage/Index" class="btn btn-outline-secondary rounded-pill btn-sm fw-bold">
+            <i class="fa-solid fa-arrow-left me-2"></i> Înapoi la Profil
+        </a>
+    </div>
+
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="fw-bold">
-            <i class="fa-solid fa-clock-rotate-left text-warning me-2"></i> Order History
+            <i class="fa-solid fa-clock-rotate-left text-warning me-2"></i> Istoric Comenzi
         </h2>
 
         @if (User.IsInRole("Admin"))
         {
-            <span class="badge bg-danger">Admin View</span>
+            <span class="badge bg-danger">Vizualizare Admin</span>
         }
     </div>
 
@@ -20,10 +27,10 @@
     {
         <div class="text-center py-5 bg-light rounded-3 shadow-sm">
             <i class="fa-solid fa-folder-open text-muted mb-3" style="font-size: 3rem;"></i>
-            <h3 class="fw-bold text-muted">No orders found.</h3>
-            <p class="text-secondary">You haven't placed any orders yet.</p>
+            <h3 class="fw-bold text-muted">Nu au fost găsite comenzi.</h3>
+            <p class="text-secondary">Nu ai plasat nicio comandă până acum.</p>
             <a asp-controller="Products" asp-action="Index" class="btn btn-warning text-white fw-bold mt-2">
-                Start Shopping
+                Începe Cumpărăturile
             </a>
         </div>
     }
@@ -34,8 +41,8 @@
                 <table class="table table-hover mb-0 align-middle">
                     <thead class="bg-light text-secondary text-uppercase small">
                         <tr>
-                            <th class="py-3 ps-4">Order ID</th>
-                            <th class="py-3">Date</th>
+                            <th class="py-3 ps-4">ID Comandă</th>
+                            <th class="py-3">Data</th>
                             <th class="py-3">Total</th>
                             <th class="py-3">Status</th>
 
@@ -44,7 +51,7 @@
                                 <th class="py-3 text-primary"><i class="fa-solid fa-user"></i> Client</th>
                             }
 
-                            <th class="py-3 text-end pe-4">Actions</th>
+                            <th class="py-3 text-end pe-4">Acțiuni</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -80,7 +87,7 @@
 
                                 <td class="text-end pe-4">
                                     <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary rounded-pill px-3">
-                                        Details <i class="fa-solid fa-circle-info ms-1"></i>
+                                        Detalii <i class="fa-solid fa-circle-info ms-1"></i>
                                     </a>
                                 </td>
                             </tr>
