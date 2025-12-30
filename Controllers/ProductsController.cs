@@ -139,6 +139,11 @@ namespace PetShop.Controllers
                 return NotFound();
             }
 
+            var categories = _categoryService.GetAllCategories();
+            var matchedCategory = categories.FirstOrDefault(c => c.Id == product.CategoryId);
+
+            ViewBag.CategoryName = matchedCategory?.Name ?? "Nespecificat";
+
             return View(mapProduct(product));
         }
 

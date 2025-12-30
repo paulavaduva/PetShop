@@ -2,7 +2,7 @@
 @model LoginModel
 
 @{
-    ViewData["Title"] = "Log in";
+    ViewData["Title"] = "Autentificare";
 }
 
 <div class="container my-5">
@@ -13,8 +13,8 @@
                 <div class="d-inline-flex align-items-center justify-content-center bg-primary text-white rounded-circle shadow-sm" style="width: 80px; height: 80px;">
                     <i class="fa-solid fa-right-to-bracket fs-2"></i>
                 </div>
-                <h2 class="fw-bold mt-3">Welcome Back!</h2>
-                <p class="text-muted">Please log in to your account.</p>
+                <h2 class="fw-bold mt-3">Bine ai revenit!</h2>
+                <p class="text-muted">Te rugăm să te autentifici în cont.</p>
             </div>
 
             <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
@@ -24,7 +24,7 @@
                         <div asp-validation-summary="ModelOnly" class="text-danger mb-3 text-center small" role="alert"></div>
 
                         <div class="form-floating mb-3">
-                            <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
+                            <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="nume@exemplu.com" />
                             <label asp-for="Input.Email">
                                 <i class="fa-solid fa-envelope me-2 text-secondary"></i>Email
                             </label>
@@ -32,9 +32,9 @@
                         </div>
 
                         <div class="form-floating mb-3">
-                            <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="password" />
+                            <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="parolă" />
                             <label asp-for="Input.Password">
-                                <i class="fa-solid fa-key me-2 text-secondary"></i>Password
+                                <i class="fa-solid fa-key me-2 text-secondary"></i>Parolă
                             </label>
                             <span asp-validation-for="Input.Password" class="text-danger small"></span>
                         </div>
@@ -47,7 +47,7 @@
                         </div>
 
                         <button id="login-submit" type="submit" class="w-100 btn btn-primary btn-lg rounded-pill fw-bold shadow-sm mb-3">
-                            <i class="fa-solid fa-arrow-right-to-bracket me-2"></i> Log in
+                            <i class="fa-solid fa-arrow-right-to-bracket me-2"></i> Autentificare
                         </button>
 
                         <div class="text-center">
@@ -57,30 +57,14 @@
 
                             <hr class="my-4 border-light">
 
-                            <p class="mb-0 text-muted small">Don't have an account?</p>
+                            <p class="mb-0 text-muted small">Nu ai cont?</p>
                             <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl" class="btn btn-outline-secondary w-100 rounded-pill mt-2 fw-bold">
-                                Create New Account
+                                Creează Cont Nou
                             </a>
                         </div>
                     </form>
                 </div>
             </div>
-
-            @if ((Model.ExternalLogins?.Count ?? 0) > 0)
-            {
-                <div class="text-center mt-4">
-                    <p class="text-muted small">Or log in with</p>
-                    <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="d-flex justify-content-center gap-2">
-                        @foreach (var provider in Model.ExternalLogins!)
-                        {
-                            <button type="submit" class="btn btn-light border shadow-sm rounded-circle p-2" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account" style="width: 50px; height: 50px;">
-                                <i class="fa-brands fa-google text-danger fs-5"></i>
-                            </button>
-                        }
-                    </form>
-                </div>
-            }
-
         </div>
     </div>
 </div>
